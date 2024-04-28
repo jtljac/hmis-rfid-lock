@@ -18,7 +18,7 @@ void Lock::loop() {
     }
 #if UNLOCK_DELAY != 0
     if (!state && millis() - lastUnlockMillis >= Constants::unlockDelay) {
-        Lock();
+        lock();
     }
 #endif
 }

@@ -73,15 +73,13 @@ void Internet::updateAuthCache() {
 
     clearAuthCache();
 
-    // This is going to take a bunch of memory, we're gonna try to process the stream in as small steps as possible
+    // This is going to take a bunch of memory, we're gonna try to process the stream in as small steps as possible.
+    // As the json array of the keys are well-defined, we're gonna skip json processing all together, and pull the
+    // values out directly.
     do {
-        payload.find("{\"rfid\":\"");
+        payload.find(R"({"rfid":")");
         payload.readBytes(buffer, 8);
         authCache[rfidCount++] = readRfidString(buffer);
-        
-        Serial.print("RFID Read: ");
-        Serial.write(buffer, 8);
-        Serial.println();
 
         // If we fill up the cache then we need to back out
         if (rfidCount == Constants::maxCachedRfids) {
@@ -99,13 +97,7 @@ void Internet::clearAuthCache() {
     rfidCount = 0;
 }
 
-// Implementation adapted from https://stackoverflow.com/a/75882454
 uint32_t Internet::readRfidString(char* rfidString) {
-    uint32_t rfidInt = 0;
-
-    for (int i = 0; i < 8; ++i) {
-        char hexChar = *rfidString++;
-        rfidInt = (rfidInt << 4) | (hexChar % 16 + 9 * (rfidInt >> 6));
-    }
-    return rfidInt;
+    uint32_t key = strtoul(rfidString, nullptr, 16);
+    return key;
 }

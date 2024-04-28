@@ -19,7 +19,7 @@ namespace Constants {
     /** The HMIS URL for fetching a list of authorised RFIDs */
     static const String hmisLockUrl = "https://your.hmis.rfid/rfid/lock/" + lockId  + "/";
     /** The token to authenticate with the HMIS server */
-    static constexpr char hmisToken[] = TOSTRING(HMIS_TOKEN\0);
+    static constexpr char hmisToken[] = TOSTRING(HMIS_TOKEN);
 
     /** The maximum amount of RFIDs to cache (Memory usage is this * 4 bytes) */
     static constexpr int maxCachedRfids = 400; // 1.6KiB
@@ -38,9 +38,9 @@ namespace Constants {
     /** D1 for Wiegand Data */
     static constexpr int PIN_D1  = 21;
     /** Unlocked LED enable (Low to turn on) */
-    static constexpr int PIN_LED_UNLOCK = 15;
+    static constexpr int PIN_LED_UNLOCK = 4;
     /** Locked LED enable (Low to turn on) */
-    static constexpr int PIN_LED_LOCK = 4;
+    static constexpr int PIN_LED_LOCK = 15;
     /** Buzzer enable (Low to turn on) */
     static constexpr int PIN_BUZ = 16;
     /** Lock Button observer (Low for pressed) */

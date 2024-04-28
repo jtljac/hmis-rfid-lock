@@ -32,7 +32,7 @@ void Output::off() {
     else digitalWrite(pin, LOW);
 }
 
-void Output::setState(bool state) {
-    if (state) on();
+void Output::setState(bool newState) {
+    if (newState) on();
     else off();
 }

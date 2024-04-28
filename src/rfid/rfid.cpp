@@ -30,19 +30,11 @@ void Rfid::stateChange(bool plugged) {
 }
 
 void Rfid::receivedData(const uint8_t* data, uint8_t bits) {
-    Serial.print(bits);
-    Serial.print("bits / ");
-    //Print value in HEX
-    uint8_t bytes = (bits+7)/8;
-    for (int i=0; i<bytes; i++) {
-        Serial.print(data[i] >> 4, 16);
-        Serial.print(data[i] & 0xF, 16);
-    }
-    Serial.println();
-
     if (bits == 32) {
         hasKey = true;
-        // TODO: Update key nextKey with uint32_t-ified key
+        nextKey = packRfidBytes(data);
+        Serial.print(F("Recieved Key: "));
+        Serial.println(nextKey, 16);
     }
 }
 
@@ -95,6 +87,14 @@ bool Rfid::getNextKey(uint32_t* key) {
         return true;
     }
     return false;
+}
+
+uint32_t Rfid::packRfidBytes(const uint8_t* bytes) {
+    uint32_t key = 0;
+    for (int i = 0; i < 4; ++i) {
+        key |= bytes[i] << (i * 8);
+    }
+    return key;
 }
 
 void Rfid::updatePinState() {

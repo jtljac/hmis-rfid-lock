@@ -45,6 +45,14 @@ void loop() {
     
     uint32_t nextKey;
     if (rfid.getNextKey(&nextKey)) {
-        // TODO: Validate key, unlock if necessary
+        if (internet.isAuthorised(nextKey)) {
+            Serial.print(F("Read Authorised key: "));
+            Serial.println(nextKey, 16);
+            lock.unlock();
+        } else {
+            Serial.print(F("Read Unauthorised key: "));
+            Serial.println(nextKey, 16);
+            // TODO: Play beep and light pattern
+        }
     }
 }
