@@ -6,13 +6,14 @@
 
 /**
  * A class wrapping the internet based functionality of this embedded program
- * <p>
- * Much functionality of this class was borrowed from <a href="https://randomnerdtutorials.com/esp32-http-get-post-arduino/#http-get-1">here</a>
  */
 class Internet {
+    /** The number of RFIDs stored in the cache */
     int rfidCount = 0;
+    /** A cache of RFIDs for looking up access rights */
     uint32_t authCache[Constants::maxCachedRfids]{};
 
+    /** The last time a cache update occurred */
     unsigned long lastCacheUpdateMillis = 0UL;
 
 public:
@@ -27,17 +28,24 @@ public:
     void setup();
 
     /**
-     * Wifi loop method:
+     * Loop for internet functionality:
      * <ul>
      *     <li>Every 20 minutes, update cache</li>
      * </ul>
      */
     void loop();
 
+    /**
+     * check if the given RFID is authorised for this Lock
+     * @param rfid The RFID to check
+     * @return True if the given RFID is authorised for this Lock
+     */
+    bool isAuthorised(uint32_t rfid);
+
 private:
 
     /**
-     * Update the cache of authorised users for this lock
+     * Update the cache of authorised users for this Lock
      */
     void updateAuthCache();
 
