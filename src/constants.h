@@ -18,8 +18,12 @@ namespace Constants {
     static const String lockId = F(LOCK_ID);
     /** The HMIS URL for fetching a list of authorised RFIDs */
     static const String hmisLockUrl = "https://your.hmis.rfid/rfid/lock/" + lockId  + "/";
+    /** The HMIS URL for checking if an RFID is authorised */
+    static const String hmisCheckUrl = "https://your.hmis.rfid/rfid/check/" + lockId  + "/";
     /** The token to authenticate with the HMIS server */
     static constexpr char hmisToken[] = TOSTRING(HMIS_TOKEN);
+    /** If true, query HMIS directly if a user is authorised, otherwise always check the cache */
+    static constexpr bool liveCheck = LIVE_CHECK;
 
     /** The maximum amount of RFIDs to cache (Memory usage is this * 4 bytes) */
     static constexpr int maxCachedRfids = 400; // 1.6KiB

@@ -36,26 +36,36 @@ public:
     void loop();
 
     /**
-     * check if the given RFID is authorised for this Lock
+     * check if the given RFID is authorised for this Lock.
      * @param rfid The RFID to check
      * @return True if the given RFID is authorised for this Lock
      */
     bool isAuthorised(uint32_t rfid);
 
 private:
+    /**
+     * Check the given keycode is authorised with HMIS.
+     * @param keyCode The keycode to check.
+     */
+    bool checkAuthLive(uint32_t keyCode);
+    /**
+     * Check the given keycode is authorised with the cache (Internet::authCache).
+     * @param keyCode The keycode to check.
+     */
+    bool checkAuthCache(uint32_t keyCode);
 
     /**
-     * Update the cache of authorised users for this Lock
+     * Update the cache of authorised users for this Lock.
      */
     void updateAuthCache();
 
     /**
-     * Empty the auth cache, zeroing all the currently stored values
+     * Empty the auth cache, zeroing all the currently stored values.
      */
     void clearAuthCache();
 
     /**
-     * Convert an 8 character RFID string to a 4 byte integer
+     * Convert an 8 character RFID string to a 4 byte integer.
      * @param rfidString A pointer to the 8 character RFID string
      * @return An integer packing the RFID hex
      */

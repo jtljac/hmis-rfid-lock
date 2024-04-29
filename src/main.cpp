@@ -41,8 +41,6 @@ void loop() {
     lock.loop();
     feedback.loop();
 
-    if (!lock.isLocked()) return;
-
     uint32_t nextKey;
     // Only handle key if currently locked, otherwise discard
     if (rfid.getNextKey(&nextKey) && lock.isLocked()) {

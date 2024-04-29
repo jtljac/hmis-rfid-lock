@@ -34,10 +34,53 @@ void Internet::loop() {
 }
 
 bool Internet::isAuthorised(uint32_t rfid) {
-    uint32_t* currentRfid = authCache;
-    for (int i = 0; i < rfidCount; ++i, ++currentRfid) {
-        if (rfid == *currentRfid) return true;
+#if LIVE_CHECK
+    return checkAuthLive(rfid);
+#else
+    return checkAuthCache(rfid);
+#endif
+}
+
+bool Internet::checkAuthLive(uint32_t keyCode) {
+    if (WiFi.status() != WL_CONNECTED) {
+        Serial.println(F("No WiFi, falling back to cache"));
+        return checkAuthCache(keyCode);
     }
+
+    HTTPClient http;
+    char stringKeycode[9];
+    sprintf(stringKeycode, "%08x", keyCode);
+    String url = Constants::hmisCheckUrl + stringKeycode + "/";
+    http.begin(url);
+    http.setAuthorizationType("Token");
+    http.setAuthorization(Constants::hmisToken);
+
+    Serial.print("Getting from ");
+    Serial.println(url);
+    int response = http.GET();
+
+    if (response != 200) {
+        Serial.print(F("Invalid response from HMIS: "));
+        Serial.println(response);
+        Serial.println(F("Falling back to cache"));
+        return checkAuthCache(keyCode);
+    }
+
+    // Only check first 4 characters to limit memory consumed if something goes wrong
+    Stream& payload = http.getStream();
+    char buffer[4];
+    payload.readBytes(buffer, 4);
+    Serial.write(buffer, 4);
+    Serial.println();
+
+    return strncmp(buffer, "true", 4) == 0;
+}
+
+bool Internet::checkAuthCache(uint32_t keyCode) {
+    for (int i = 0; i < rfidCount; ++i) {
+        if (keyCode == authCache[i]) return true;
+    }
+
     return false;
 }
 
