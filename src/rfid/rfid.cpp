@@ -33,8 +33,6 @@ void Rfid::receivedData(const uint8_t* data, uint8_t bits) {
     if (bits == 32) {
         hasKey = true;
         nextKey = packRfidBytes(data);
-        Serial.print(F("Recieved Key: "));
-        Serial.println(nextKey, 16);
     }
 }
 

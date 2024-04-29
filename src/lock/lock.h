@@ -8,7 +8,7 @@
 class Lock {
     Feedback& feedback;
 
-    /** The current state of the Lock, <code>true</code> represents the Lock being open */
+    /** The current state of the Lock, <code>true</code> represents locked */
     bool state = false;
 
     /**
@@ -67,6 +67,12 @@ public:
      * @return True if locked
      */
     bool isLocked() const;
+
+    /**
+     * Get if the lock is currently unlocked
+     * @return True if unlocked
+     */
+    bool isUnlocked() const;
 
     /**
      * Handler for interrupt when the Lock button has been pressed

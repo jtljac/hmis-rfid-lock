@@ -13,7 +13,7 @@ void Lock::setup() {
 void Lock::loop() {
     if (shouldSwitch) {
         shouldSwitch = false;
-        if (state) unlock();
+        if (isLocked()) unlock();
         else lock();
     }
 #if UNLOCK_DELAY != 0
@@ -50,8 +50,12 @@ bool Lock::isLocked() const {
     return state;
 }
 
+bool Lock::isUnlocked() const {
+    return !state;
+}
+
 void Lock::lockButtonPressed() {
-    if (state) return;
+    if (isLocked()) return;
 
     unsigned long currentMillis = millis();
     if (currentMillis - lastLockButtonMillis > 200) {
