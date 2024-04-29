@@ -61,6 +61,7 @@ bool Internet::checkAuthLive(uint32_t keyCode) {
         Serial.print(F("Invalid response from HMIS: "));
         Serial.println(response);
         Serial.println(F("Falling back to cache"));
+        http.end();
         return checkAuthCache(keyCode);
     }
 
@@ -71,6 +72,7 @@ bool Internet::checkAuthLive(uint32_t keyCode) {
     Serial.write(buffer, 4);
     Serial.println();
 
+    http.end();
     return strncmp(buffer, "true", 4) == 0;
 }
 
@@ -101,6 +103,7 @@ void Internet::updateAuthCache() {
     if (response != 200) {
         Serial.print(F("Invalid HTTP response code: "));
         Serial.println(response);
+        http.end();
         return;
     }
 
@@ -109,14 +112,15 @@ void Internet::updateAuthCache() {
     payload.readBytes(buffer, 1);
     if (buffer[0] != '[') {
         Serial.println(F("Unexpected response from cache list update"));
+        http.end();
         return;
     }
 
     clearAuthCache();
 
-    // This is going to take a bunch of memory, we're gonna try to process the stream in as small steps as possible.
     // As the json array of the keys are well-defined, we're gonna skip json processing all together, and pull the
     // values out directly.
+    // This is going to take a bunch of memory, so we're gonna try to process the stream in as small steps as possible.
     do {
         payload.find(R"({"rfid":")");
         payload.readBytes(buffer, 8);
@@ -128,7 +132,7 @@ void Internet::updateAuthCache() {
             break;
         }
     } while (payload.findUntil(",","]"));
-
+    http.end();
 }
 
 void Internet::clearAuthCache() {

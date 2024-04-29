@@ -7,7 +7,7 @@
  */
 class Lock {
     Feedback& feedback;
-    Output relay = Output(Constants::pinRelay, false);
+    Output relay = Output(Constants::pinRelay, Constants::invertRelay);
 
     /**
      * Value to signify that the Lock should change.

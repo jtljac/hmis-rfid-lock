@@ -51,4 +51,14 @@ namespace Constants {
     static constexpr int pinButtonLock = PIN_BUT_LOCK;
     /** Relay enable (Low to close relay) */
     static constexpr int pinRelay = PIN_REL;
+
+    // Pin Inversions
+    /** Invert the LED Unlock pin's output so "on" is LOW */
+    static constexpr bool invertLedUnlock = INVERT_LED_UNLOCK;
+    /** Invert the LED Lock pin's output so "on" is LOW */
+    static constexpr bool invertLedLock = INVERT_LED_LOCK;
+    /** Invert the Buzzer pin's output so "on" is LOW */
+    static constexpr bool invertBuzzer = INVERT_BUZZER;
+    /** Invert the Relay pin's output so "on" is LOW */
+    static constexpr bool invertRelay = INVERT_RELAY;
 }
