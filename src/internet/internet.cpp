@@ -1,8 +1,6 @@
 #include "internet.h"
 
-#include <ArduinoJson.h>
 #include <HTTPClient.h>
-#include <StreamUtils.h>
 #include <WiFi.h>
 
 void Internet::setup() {
