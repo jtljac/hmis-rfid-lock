@@ -30,6 +30,11 @@ class Output {
     int animationRemaining = 0;
     /** The state the animation should finish on */
     bool animEndState = false;
+
+    /**
+     * Clear the currently running animation.
+     */
+    void clearAnimation();
 public:
     /**
      * @param pin The pin this output is on
@@ -61,5 +66,12 @@ public:
      */
     void setState(bool newState);
 
+    /**
+     * Blink the output
+     * @param count The number of times the output should blink
+     * @param interval The interval between blinks
+     * @param endState The state the blink should end on (If <code>true</code>, then it will end with the output set to
+     *                 "on"
+     */
     void blink(int count = 1, unsigned long interval = 200, bool endState = false);
 };

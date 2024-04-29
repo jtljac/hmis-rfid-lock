@@ -42,9 +42,10 @@ void loop() {
     feedback.loop();
 
     if (!lock.isLocked()) return;
-    
+
     uint32_t nextKey;
-    if (rfid.getNextKey(&nextKey)) {
+    // Only handle key if currently locked, otherwise discard
+    if (rfid.getNextKey(&nextKey) && lock.isLocked()) {
         if (internet.isAuthorised(nextKey)) {
             Serial.print(F("Read Authorised key: "));
             Serial.println(nextKey, 16);
