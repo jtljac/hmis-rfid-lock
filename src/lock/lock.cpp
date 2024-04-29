@@ -27,8 +27,8 @@ void Lock::lock() {
     state = true;
 
     digitalWrite(Constants::PIN_REL, HIGH);
-    feedback.unlockLed.on();
-    feedback.lockLed.off();
+    feedback.unlockLed.off();
+    feedback.lockLed.on();
     feedback.buzzer.off();
 }
 
@@ -37,8 +37,8 @@ void Lock::unlock() {
     lastUnlockMillis = millis();
 
     digitalWrite(Constants::PIN_REL, LOW);
-    feedback.unlockLed.off();
-    feedback.lockLed.on();
+    feedback.unlockLed.on();
+    feedback.lockLed.off();
 
     // Only buzzer if enabled
 #if UNLOCK_BUZZ

@@ -52,7 +52,10 @@ void loop() {
         } else {
             Serial.print(F("Read Unauthorised key: "));
             Serial.println(nextKey, 16);
-            // TODO: Play beep and light pattern
+            feedback.unlockLed.blink(5, 100, false);
+#if UNLOCK_BUZZ
+            feedback.buzzer.blink(5, 100);
+#endif
         }
     }
 }

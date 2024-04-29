@@ -38,9 +38,9 @@ namespace Constants {
     /** D1 for Wiegand Data */
     static constexpr int PIN_D1  = 21;
     /** Unlocked LED enable (Low to turn on) */
-    static constexpr int PIN_LED_UNLOCK = 4;
+    static constexpr int PIN_LED_UNLOCK = 15;
     /** Locked LED enable (Low to turn on) */
-    static constexpr int PIN_LED_LOCK = 15;
+    static constexpr int PIN_LED_LOCK = 4;
     /** Buzzer enable (Low to turn on) */
     static constexpr int PIN_BUZ = 16;
     /** Lock Button observer (Low for pressed) */

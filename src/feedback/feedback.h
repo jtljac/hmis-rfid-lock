@@ -1,7 +1,8 @@
 #pragma once
 
-#include "../constants.h"
 #include "output.h"
+
+#include <constants.h>
 
 /**
  * A struct containing the output devices

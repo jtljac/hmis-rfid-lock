@@ -11,6 +11,19 @@ Output::Output(int pin, bool invert) : pin(pin), invert(invert) {
     off();
 }
 
+void Output::loop() {
+    if (animationRemaining != 0) {
+        unsigned long currentMillis = millis();
+        if (currentMillis - lastAnimMillis >= animationInterval) {
+            lastAnimMillis = currentMillis;
+
+            // Only decrement when we change to the end state, as so the last action of the animation is always to
+            // switch to the end state.
+            if (toggle() == animEndState && animationRemaining > 0) --animationRemaining;
+        }
+    }
+}
+
 bool Output::toggle() {
     if (state) off();
     else on();
@@ -35,4 +48,11 @@ void Output::off() {
 void Output::setState(bool newState) {
     if (newState) on();
     else off();
+}
+
+void Output::blink(int count, unsigned long interval, bool endState) {
+    animationInterval = interval;
+    animationRemaining = count;
+    lastAnimMillis = millis();
+    setState(!endState);
 }
