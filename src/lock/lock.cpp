@@ -4,8 +4,7 @@
 #include "constants.h"
 
 void Lock::setup() {
-    pinMode(Constants::PIN_BUT_LOCK, INPUT);
-    pinMode(Constants::PIN_REL, OUTPUT);
+    pinMode(Constants::pinButtonLock, INPUT);
 
     lock();
 }
@@ -17,26 +16,23 @@ void Lock::loop() {
         else lock();
     }
 #if UNLOCK_DELAY != 0
-    if (!state && millis() - lastUnlockMillis >= Constants::unlockDelay) {
+    if (isUnlocked() && millis() - lastUnlockMillis >= Constants::unlockDelay) {
         lock();
     }
 #endif
 }
 
 void Lock::lock() {
-    state = true;
-
-    digitalWrite(Constants::PIN_REL, HIGH);
+    relay.on();
     feedback.unlockLed.off();
     feedback.lockLed.on();
     feedback.buzzer.off();
 }
 
 void Lock::unlock() {
-    state = false;
     lastUnlockMillis = millis();
 
-    digitalWrite(Constants::PIN_REL, LOW);
+    relay.off();
     feedback.unlockLed.on();
     feedback.lockLed.off();
 
@@ -47,11 +43,11 @@ void Lock::unlock() {
 }
 
 bool Lock::isLocked() const {
-    return state;
+    return relay.isOn();
 }
 
 bool Lock::isUnlocked() const {
-    return !state;
+    return relay.isOff();
 }
 
 void Lock::lockButtonPressed() {

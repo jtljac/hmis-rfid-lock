@@ -42,7 +42,22 @@ public:
      */
     explicit Output(int pin, bool invert = false);
 
+    /**
+     * Animation handling loop
+     */
     void loop();
+
+    /**
+     * Get whether this output is "on"
+     * @return <code>true</code> if "on"
+     */
+    bool isOn() const;
+
+    /**
+     * Get whether this output is "off"
+     * @return <code>true</code> if "off"
+     */
+    bool isOff() const;
 
     /**
      * Flip the state of the pin.

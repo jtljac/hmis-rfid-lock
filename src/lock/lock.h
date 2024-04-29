@@ -7,9 +7,7 @@
  */
 class Lock {
     Feedback& feedback;
-
-    /** The current state of the Lock, <code>true</code> represents locked */
-    bool state = false;
+    Output relay = Output(Constants::pinRelay, false);
 
     /**
      * Value to signify that the Lock should change.
@@ -28,7 +26,7 @@ class Lock {
     /**
      * The time in millis that the Lock button was last pressed
      * <p>
-     * This is used for deboucing the Lock button interrupt
+     * This is used for debouncing the Lock button interrupt
      */
     volatile unsigned long lastLockButtonMillis = 0UL;
 public:

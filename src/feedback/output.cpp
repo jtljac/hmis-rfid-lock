@@ -35,6 +35,14 @@ void Output::loop() {
     }
 }
 
+bool Output::isOn() const {
+    return state;
+}
+
+bool Output::isOff() const {
+    return !state;
+}
+
 bool Output::toggle() {
     if (state) off();
     else on();

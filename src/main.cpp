@@ -11,36 +11,39 @@ Internet internet;
 Lock lock(feedback);
 Rfid rfid(feedback);
 
-// When any of the pins have changed, update the state of the wiegand library
+/**
+ * When either of the Wiegand pins change, update their state in the Rfid instance
+ */
 void wiegandPinStateChanged() {
     rfid.updatePinState();
 }
 
+/**
+ * When the lock button is pressed, update it's state in the Lock instance
+ */
 void lockButtonPinPressed() {
     lock.lockButtonPressed();
 }
 
-// Initialize Wiegand reader
 void setup() {
     Serial.begin(115200);
 
     internet.setup();
     lock.setup();
-    attachInterrupt(digitalPinToInterrupt(Constants::PIN_BUT_LOCK), lockButtonPinPressed, FALLING);
+    attachInterrupt(digitalPinToInterrupt(Constants::pinButtonLock), lockButtonPinPressed, FALLING);
 
     rfid.setup();
-    attachInterrupt(digitalPinToInterrupt(Constants::PIN_D0), wiegandPinStateChanged, CHANGE);
-    attachInterrupt(digitalPinToInterrupt(Constants::PIN_D1), wiegandPinStateChanged, CHANGE);
+    attachInterrupt(digitalPinToInterrupt(Constants::pinD0), wiegandPinStateChanged, CHANGE);
+    attachInterrupt(digitalPinToInterrupt(Constants::pinD1), wiegandPinStateChanged, CHANGE);
 }
 
-// Every few milliseconds, check for pending messages on the wiegand reader
-// This executes with interruptions disabled, since the Wiegand library is not thread-safe
 void loop() {
     internet.loop();
     rfid.loop();
     lock.loop();
     feedback.loop();
 
+    // Check for unlock
     uint32_t nextKey;
     // Only handle key if currently locked, otherwise discard
     if (rfid.getNextKey(&nextKey) && lock.isLocked()) {

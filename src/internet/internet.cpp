@@ -15,7 +15,7 @@ void Internet::setup() {
         delay(500);
         Serial.print(".");
     }
-
+    Serial.println();
     Serial.print(F("Successfully connected, Local IP: "));
     Serial.println(WiFi.localIP());
 

@@ -17,9 +17,9 @@ namespace Constants {
     /** The Id that represents this Lock in HMIS */
     static const String lockId = F(LOCK_ID);
     /** The HMIS URL for fetching a list of authorised RFIDs */
-    static const String hmisLockUrl = "https://your.hmis.rfid/rfid/lock/" + lockId  + "/";
+    static const String hmisLockUrl = String(HMIS_URL) + "/rfid/lock/" + lockId  + "/";
     /** The HMIS URL for checking if an RFID is authorised */
-    static const String hmisCheckUrl = "https://your.hmis.rfid/rfid/check/" + lockId  + "/";
+    static const String hmisCheckUrl = String(HMIS_URL) + "/rfid/check/" + lockId  + "/";
     /** The token to authenticate with the HMIS server */
     static constexpr char hmisToken[] = TOSTRING(HMIS_TOKEN);
     /** If true, query HMIS directly if a user is authorised, otherwise always check the cache */
@@ -27,8 +27,8 @@ namespace Constants {
 
     /** The maximum amount of RFIDs to cache (Memory usage is this * 4 bytes) */
     static constexpr int maxCachedRfids = 400; // 1.6KiB
-    /** The interval in milliseconds between cache updates */
-    static constexpr unsigned long cacheUpdateInterval = 1800UL * 1000UL; // 30 minutes
+    /** The interval in milliseconds between rfid cache updates */
+    static constexpr unsigned long cacheUpdateInterval = CACHE_UPDATE_INTERVAL * 1000UL; // 30 minutes
 
     // Lock
     /** The length of time in seconds to hold the Lock open for (0 to disable) */
@@ -38,17 +38,17 @@ namespace Constants {
 
     // Pins
     /** D0 for Wiegand data */
-    static constexpr int PIN_D0  = 22;
+    static constexpr int pinD0 = PIN_D0;
     /** D1 for Wiegand Data */
-    static constexpr int PIN_D1  = 21;
+    static constexpr int pinD1 = PIN_D1;
     /** Unlocked LED enable (Low to turn on) */
-    static constexpr int PIN_LED_UNLOCK = 15;
+    static constexpr int pinLedUnlock = PIN_LED_UNLOCK;
     /** Locked LED enable (Low to turn on) */
-    static constexpr int PIN_LED_LOCK = 4;
+    static constexpr int pinLedLock = PIN_LED_LOCK;
     /** Buzzer enable (Low to turn on) */
-    static constexpr int PIN_BUZ = 16;
+    static constexpr int pinBuzzer = PIN_BUZ;
     /** Lock Button observer (Low for pressed) */
-    static constexpr int PIN_BUT_LOCK = 35;
+    static constexpr int pinButtonLock = PIN_BUT_LOCK;
     /** Relay enable (Low to close relay) */
-    static constexpr int PIN_REL = 17;
+    static constexpr int pinRelay = PIN_REL;
 }

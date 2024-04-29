@@ -9,11 +9,11 @@
  */
 struct Feedback {
     /** The LED lit when the device is unlocked */
-    Output unlockLed = Output(Constants::PIN_LED_UNLOCK, true);
+    Output unlockLed = Output(Constants::pinLedUnlock, true);
     /** The LED lit when the device is locked */
-    Output lockLed = Output(Constants::PIN_LED_LOCK, true);
+    Output lockLed = Output(Constants::pinLedLock, true);
     /** A buzzer */
-    Output buzzer = Output(Constants::PIN_BUZ, true);
+    Output buzzer = Output(Constants::pinBuzzer, true);
 
     /**
      * The loop driving output animations

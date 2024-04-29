@@ -59,8 +59,8 @@ void Rfid::setup() {
     wiegand.begin(Wiegand::LENGTH_ANY, true);
 
     //initialize pins as INPUT and attaches interruptions
-    pinMode(Constants::PIN_D0, INPUT);
-    pinMode(Constants::PIN_D1, INPUT);
+    pinMode(Constants::pinD0, INPUT);
+    pinMode(Constants::pinD1, INPUT);
 
     //Sends the initial pin state to the Wiegand library
     updatePinState();
@@ -96,6 +96,6 @@ uint32_t Rfid::packRfidBytes(const uint8_t* bytes) {
 }
 
 void Rfid::updatePinState() {
-    wiegand.setPin0State(digitalRead(Constants::PIN_D0));
-    wiegand.setPin1State(digitalRead(Constants::PIN_D1));
+    wiegand.setPin0State(digitalRead(Constants::pinD0));
+    wiegand.setPin1State(digitalRead(Constants::pinD1));
 }
