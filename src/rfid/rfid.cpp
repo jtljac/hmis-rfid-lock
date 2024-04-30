@@ -26,7 +26,7 @@ void receivedDataErrorStatic(Wiegand::DataError error, uint8_t* rawData, uint8_t
 }
 
 void Rfid::stateChange(bool plugged) {
-    Serial.println(plugged ? "CONNECTED" : "DISCONNECTED");
+    // Do nothing for now
 }
 
 void Rfid::receivedData(const uint8_t* data, uint8_t bits) {
@@ -37,18 +37,7 @@ void Rfid::receivedData(const uint8_t* data, uint8_t bits) {
 }
 
 void Rfid::receivedError(Wiegand::DataError error, const uint8_t* data, uint8_t bits) {
-    Serial.print(Wiegand::DataErrorStr(error));
-    Serial.print(" - Raw data: ");
-    Serial.print(bits);
-    Serial.print("bits / ");
-
-    //Print value in HEX
-    uint8_t bytes = (bits+7)/8;
-    for (int i=0; i<bytes; i++) {
-        Serial.print(data[i] >> 4, 16);
-        Serial.print(data[i] & 0xF, 16);
-    }
-    Serial.println();
+    // Do nothing for now
 }
 
 void Rfid::setup() {
