@@ -1,7 +1,3 @@
-//
-// Created by jacob on 28/04/24.
-//
-
 #include "rfid.h"
 
 #include <Arduino.h>
@@ -30,6 +26,22 @@ void Rfid::stateChange(bool plugged) {
 }
 
 void Rfid::receivedData(const uint8_t* data, uint8_t bits) {
+#if ENABLE_KEYPAD_PASSCODE
+    if (bits == 4) {
+        if (*data == 0x0A) {
+            // This is '*', clear
+            hasKeycode = false;
+            nextKeycode = 0xFFFFFFFF;
+        } else if (*data == 0x0B) {
+            // This is '#', send it through
+            hasKeycode = true;
+        } else {
+            nextKeycode = Constants::keycodeClearMask | nextKeycode << 4 | *data;
+        }
+
+        return;
+    }
+#endif
     if (bits == 32) {
         hasKey = true;
         nextKey = packRfidBytes(data);
@@ -37,7 +49,6 @@ void Rfid::receivedData(const uint8_t* data, uint8_t bits) {
 }
 
 void Rfid::receivedError(Wiegand::DataError error, const uint8_t* data, uint8_t bits) {
-    // Do nothing for now
 }
 
 void Rfid::setup() {
@@ -75,6 +86,17 @@ bool Rfid::getNextKey(uint32_t* key) {
     }
     return false;
 }
+#if ENABLE_KEYPAD_PASSCODE
+bool Rfid::getNextKeyCode(uint32_t* key) {
+    if (hasKeycode) {
+        *key = nextKeycode;
+        nextKeycode = 0xFFFFFFFF;
+        hasKeycode = false;
+        return true;
+    }
+    return false;
+}
+#endif
 
 uint32_t Rfid::packRfidBytes(const uint8_t* bytes) {
     uint32_t key = 0;

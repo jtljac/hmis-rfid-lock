@@ -2,6 +2,13 @@
 A [PlatformIO](https://platformio.org/) program for a electronic locks that are unlocked using a Wiegand based RFID 
 scanner and authorises users using a HMIS endpoint.
 
+# Keypad support
+Wiegand readers with keypads are supported. You can configure the valid keycode by setting the `enable_keypad_passcode`
+option to a numeric string up to 8 numbers long.
+
+When using the keypad, the '*' (star) button will clear (provided it maps to 0x0A), and the '#' (Hashtag) button will
+submit (provided it maps to 0x0B).
+
 # Setup
 ## Platform IO
 This application uses [PlatformIO](https://platformio.org/) for dependency management and installation. Installation

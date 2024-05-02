@@ -35,6 +35,14 @@ namespace Constants {
     static const unsigned long unlockDelay = UNLOCK_DELAY * 1000;
     /** If true, buzz whilst the door is unlocked */
     static const bool unlockBuzz = UNLOCK_BUZZ;
+    /** If true, enable entering a keycode using the keypad */
+    static const bool enableKeycode = ENABLE_KEYPAD_PASSCODE;
+    /** The length of the keycode */
+    static const int keycodeLength = sizeof(KEYPAD_PASSCODE) - 1;
+    /** A mask used to clear the unused bits of the keycode */
+    static const uint32_t keycodeClearMask = 0xFFFFFFFF << keycodeLength * 4;
+    /** The keycode packed into a uint32 and correctly masked */
+    static const uint32_t keycode = keycodeClearMask | strtol(KEYPAD_PASSCODE, nullptr, 16);
 
     // Pins
     /** D0 for Wiegand data */

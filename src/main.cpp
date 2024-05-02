@@ -45,8 +45,14 @@ void loop() {
 
     // Check for unlock
     uint32_t nextKey;
+    bool hasKey = rfid.getNextKey(&nextKey);
+#if ENABLE_KEYPAD_PASSCODE
+    uint32_t nextKeycode;
+    bool hasPin = rfid.getNextKeyCode(&nextKeycode);
+#endif
+
     // Only handle key if currently locked, otherwise discard
-    if (rfid.getNextKey(&nextKey) && lock.isLocked()) {
+    if (hasKey && lock.isLocked()) {
         if (internet.isAuthorised(nextKey)) {
             Serial.print(F("Read Authorised key: "));
             Serial.println(nextKey, 16);
@@ -60,4 +66,19 @@ void loop() {
 #endif
         }
     }
+#if ENABLE_KEYPAD_PASSCODE
+    if (hasPin && lock.isLocked()) {
+        if (nextKeycode == Constants::keycode) {
+            Serial.println(F("Keycode Unlock"));
+            lock.unlock();
+        } else {
+            Serial.print(F("Unauthorised keycode: "));
+            Serial.println(nextKeycode, 16);
+            feedback.unlockLed.blink(5, 100, false);
+#if UNLOCK_BUZZ
+            feedback.buzzer.blink(5, 100);
+#endif
+        }
+    }
+#endif
 }

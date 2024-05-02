@@ -19,6 +19,18 @@ class Rfid {
     /** The next key for the main loop to process */
     uint32_t nextKey = 0;
 
+#if ENABLE_KEYPAD_PASSCODE
+    /** Whether Rfid::nextKeycode currently has a valid pin stored */
+    bool hasKeycode = false;
+    /**
+     * The next pin for the main loop to process
+     * <p>
+     * Initialise to all Fs as the keypad cannot provide a value higher than 9, making it impossible to accidentally get
+     * the passcode without typing it fully
+     */
+    uint32_t nextKeycode = 0xFFFFFFFF;
+#endif
+
     /** The last time a wiegand flush occurred */
     unsigned long lastFlush = 0UL;
 public:
@@ -50,6 +62,15 @@ public:
      * @return <code>true</code> if there is a key available
      */
     bool getNextKey(uint32_t* key);
+
+#if ENABLE_KEYPAD_PASSCODE
+    /**
+     * Get a new pin entered in the Wiegand reader.
+     * @param pin The memory location to store the pin in
+     * @return <code>true</code> if there is a pin available
+     */
+    bool getNextKeyCode(uint32_t* key);
+#endif
 
     /**
      * Callback to update the state of the pins.

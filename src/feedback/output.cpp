@@ -1,7 +1,3 @@
-//
-// Created by jacob on 28/04/24.
-//
-
 #include "output.h"
 
 #include <Arduino.h>
