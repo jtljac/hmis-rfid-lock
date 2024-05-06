@@ -69,8 +69,6 @@ bool Internet::checkAuthLive(uint32_t keyCode) {
     Stream& payload = http.getStream();
     char buffer[4];
     payload.readBytes(buffer, 4);
-    Serial.write(buffer, 4);
-    Serial.println();
 
     http.end();
     return strncmp(buffer, "true", 4) == 0;
