@@ -11,6 +11,8 @@ Internet internet;
 Lock lock(feedback);
 Rfid rfid(feedback);
 
+unsigned long lastBadAuth = 0UL;
+
 /**
  * When either of the Wiegand pins change, update their state in the Rfid instance
  */
@@ -51,6 +53,12 @@ void loop() {
     bool hasPin = rfid.getNextKeyCode(&nextKeycode);
 #endif
 
+    unsigned long currentMillis = millis();
+
+    if (currentMillis - lastBadAuth < Constants::badAuthDelay) {
+        return;
+    }
+
     // Only handle key if currently locked, otherwise discard
     if (hasKey && lock.isLocked()) {
         if (internet.isAuthorised(nextKey)) {
@@ -58,9 +66,12 @@ void loop() {
             Serial.println(nextKey, 16);
             lock.unlock();
         } else {
+            lastBadAuth = currentMillis;
+
             Serial.print(F("Read Unauthorised key: "));
             Serial.println(nextKey, 16);
-            feedback.unlockLed.blink(5, 100, false);
+
+            feedback.unlockLed.blink(Constants::badAuthFlashCount, 100, false);
 #if UNLOCK_BUZZ
             feedback.buzzer.blink(5, 100);
 #endif
@@ -72,9 +83,12 @@ void loop() {
             Serial.println(F("Keycode Unlock"));
             lock.unlock();
         } else {
+            lastBadAuth = currentMillis;
+
             Serial.print(F("Unauthorised keycode: "));
             Serial.println(nextKeycode, 16);
-            feedback.unlockLed.blink(5, 100, false);
+
+            feedback.unlockLed.blink(Constants::badAuthFlashCount, 100, false);
 #if UNLOCK_BUZZ
             feedback.buzzer.blink(5, 100);
 #endif

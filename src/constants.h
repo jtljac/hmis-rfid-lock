@@ -1,7 +1,7 @@
 #pragma once
 
 #include <WString.h>
-#include <pins_arduino.h>
+#include <Arduino.h>
 
 #define TOSTRINGIMPL(x) #x
 #define TOSTRING(x) TOSTRINGIMPL(x)
@@ -31,10 +31,24 @@ namespace Constants {
     static constexpr unsigned long cacheUpdateInterval = CACHE_UPDATE_INTERVAL * 1000UL; // 30 minutes
 
     // Lock
-    /** The length of time in seconds to hold the Lock open for (0 to disable) */
+    /** The length of time in milliseconds to hold the Lock open for (0 to disable) */
     static const unsigned long unlockDelay = UNLOCK_DELAY * 1000;
     /** If true, buzz whilst the door is unlocked */
     static const bool unlockBuzz = UNLOCK_BUZZ;
+    /**
+     * The length of time in milliseconds to block any access attempt (RFID or Keypad) after a failed auth (Bad keycard
+     * or Passcode)
+     */
+    static const unsigned long badAuthDelay = BAD_AUTH_DELAY * 1000;
+    /**
+     * The number of times to flash the LED when an unauthorised input RFID card is scanned, or a bad passcode is
+     * entered
+     * <p>
+     * Each blink is 0.1 seconds, each blink has 2 parts, on then off, therefore to find the number of blinks to cover
+     * the full Constants::badAuthDelay, we need to divide the number of seconds to blink for by the length of each
+     * blink (0.1 * 2). Constants::badAuthDelay can be 0, so we want to blink atleast 5 times
+     */
+    static const int badAuthFlashCount = max<int>(BAD_AUTH_DELAY / 0.2, 5);
     /** If true, enable entering a keycode using the keypad */
     static const bool enableKeycode = ENABLE_KEYPAD_PASSCODE;
     /** The length of the keycode */
