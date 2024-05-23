@@ -4,7 +4,7 @@
 #include "constants.h"
 
 void Lock::setup() {
-    pinMode(Constants::pinButtonLock, INPUT);
+    pinMode(Constants::pinButtonLock, INPUT_PULLUP);
 
     lock();
 }

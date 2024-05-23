@@ -33,5 +33,6 @@ ESP32 (we welcome PRs for alternative setups).
 ## Installation
 Run the following to build and upload the project to your ESP32:
 ```shell
+# [your-env] should be one of the configured env sections in platformio.ini
 pio run -t upload -e [your-env]
 ```

@@ -57,7 +57,7 @@ bool Internet::checkAuthLive(uint32_t keyCode) {
     Serial.println(url);
     int response = http.GET();
 
-    if (response != 200) {
+    if (response != HTTP_CODE_OK) {
         Serial.print(F("Invalid response from HMIS: "));
         Serial.println(response);
         Serial.println(F("Falling back to cache"));
@@ -98,7 +98,7 @@ void Internet::updateAuthCache() {
     Serial.println(Constants::hmisLockUrl);
     int response = http.GET();
 
-    if (response != 200) {
+    if (response != HTTP_CODE_OK) {
         Serial.print(F("Invalid HTTP response code: "));
         Serial.println(response);
         http.end();
