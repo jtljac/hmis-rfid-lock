@@ -4,11 +4,13 @@
 #include "feedback/feedback.h"
 #include "internet/internet.h"
 #include "lock/lock.h"
+#include "ota/ota.h"
 #include "rfid/rfid.h"
 
 Feedback feedback;
 Internet internet;
 Lock lock(feedback);
+Ota ota(feedback);
 Rfid rfid(feedback);
 
 unsigned long lastBadAuth = 0UL;
@@ -37,12 +39,15 @@ void setup() {
     rfid.setup();
     attachInterrupt(digitalPinToInterrupt(Constants::pinD0), wiegandPinStateChanged, CHANGE);
     attachInterrupt(digitalPinToInterrupt(Constants::pinD1), wiegandPinStateChanged, CHANGE);
+
+    ota.setup();
 }
 
 void loop() {
     internet.loop();
     rfid.loop();
     lock.loop();
+    ota.loop();
     feedback.loop();
 
     // Check for unlock

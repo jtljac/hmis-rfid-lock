@@ -13,6 +13,12 @@ namespace Constants {
     /** The password of the wifi network to use */
     static const String wifiPass = F(TOSTRING(WIFI_PASS));
 
+    // OTA
+    /** The hostname of the ESP for OTA updates */
+    static const String otaHostname = F(TOSTRING(OTA_HOST));
+    /** The password for authenticating OTA updates */
+    static const String otaPassword = F(TOSTRING(OTA_PASS));
+
     // HMIS
     /** The Id that represents this Lock in HMIS */
     static const String lockId = F(LOCK_ID);
