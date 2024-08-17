@@ -7,7 +7,7 @@
 /**
  * A class wrapping the internet based functionality of this embedded program
  */
-class Internet {
+class Authentication {
     /** The number of RFIDs stored in the cache */
     int rfidCount = 0;
     /** A cache of RFIDs for looking up access rights */
@@ -20,18 +20,14 @@ public:
 
     /**
      * Setup for the Internet based functionality:
-     * <ul>
-     *     <li>Setup and wait for wifi connection</li>
-     *     <li>Fetch initial copy of authorised users</li>
-     * </ul>
+     * - Setup and wait for wifi connection
+     * - Fetch initial copy of authorised users
      */
     void setup();
 
     /**
      * Loop for internet functionality:
-     * <ul>
-     *     <li>Every 20 minutes, update cache</li>
-     * </ul>
+     * - Every 20 minutes, update cache
      */
     void loop();
 

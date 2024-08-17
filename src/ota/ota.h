@@ -6,7 +6,13 @@
 
 #include "../feedback/feedback.h"
 
+/**
+ * A class for handling Over the Air updates
+ *
+ * This is its own class, despite most of its functionality being static, mainly for the purpose of encapsulation
+ */
 class Ota {
+    /** A reference to the program's feedback class */
     Feedback& feedback;
 public:
     Ota(Feedback& feedback) : feedback(feedback) {}
@@ -14,16 +20,14 @@ public:
     /**
     * Setup for Over The Air updates:
     * <ul>
-    *     <li>Setup ArduinoOTA</li>
+    * - Setup ArduinoOTA
     * </ul>
     */
     void setup();
 
     /**
      * Loop for Over The Air updates:
-     * <ul>
-     *     <li>Poll for OTA</li>
-     * </ul>
+     * - Poll for OTA
      */
     void loop();
 };

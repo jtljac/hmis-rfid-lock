@@ -41,18 +41,14 @@ public:
 
     /**
      * Setup for RFID based functionality:
-     * <ul>
-     *     <li>Setup the Wiegand library</li>
-     *     <li>Setup the data pins for wiegand communication</li>
-     * </ul>
+     * - Setup the Wiegand library
+     * - Setup the data pins for wiegand communication
      */
     void setup();
 
     /**
      * Loop for RFID based functionality:
-     * <ul>
-     *     <li>Flush data from Wiegand pins every 100ms</li>
-     * </ul>
+     * - Flush data from Wiegand pins every 100ms
      */
     void loop();
 

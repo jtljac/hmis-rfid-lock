@@ -1,37 +1,23 @@
-#include "internet.h"
+#include "authentication.h"
 
 #include <HTTPClient.h>
-#include <WiFi.h>
 
-void Internet::setup() {
-    WiFi.mode(WIFI_STA);
-    WiFi.begin(Constants::wifiSsid, Constants::wifiPass);
-    Serial.print(F("Connecting to WiFi Network:"));
-    Serial.println(Constants::wifiSsid);
-
-    while(WiFi.status() != WL_CONNECTED) {
-        delay(500);
-        Serial.print(".");
-    }
-    Serial.println();
-    Serial.print(F("Successfully connected, Local IP: "));
-    Serial.println(WiFi.localIP());
-
-    // Enable auto-reconnecting on WiFi loss
-    WiFi.setAutoReconnect(true);
-    WiFi.persistent(true);
-
+void Authentication::setup() {
     updateAuthCache();
+
+    for (uint32_t auth : authCache) {
+        Serial.println(auth, 16);
+    }
 }
 
-void Internet::loop() {
+void Authentication::loop() {
     if (millis() - lastCacheUpdateMillis >= Constants::cacheUpdateInterval) {
         lastCacheUpdateMillis += Constants::cacheUpdateInterval;
         updateAuthCache();
     }
 }
 
-bool Internet::isAuthorised(uint32_t rfid) {
+bool Authentication::isAuthorised(uint32_t rfid) {
 #if LIVE_CHECK
     return checkAuthLive(rfid);
 #else
@@ -39,7 +25,7 @@ bool Internet::isAuthorised(uint32_t rfid) {
 #endif
 }
 
-bool Internet::checkAuthLive(uint32_t keyCode) {
+bool Authentication::checkAuthLive(uint32_t keyCode) {
     if (WiFi.status() != WL_CONNECTED) {
         Serial.println(F("No WiFi, falling back to cache"));
         return checkAuthCache(keyCode);
@@ -48,14 +34,14 @@ bool Internet::checkAuthLive(uint32_t keyCode) {
     HTTPClient http;
     char stringKeycode[9];
     sprintf(stringKeycode, "%08x", keyCode);
-    String url = Constants::hmisCheckUrl + stringKeycode + "/";
+    const String url = Constants::hmisCheckUrl + stringKeycode + "/";
     http.begin(url);
     http.setAuthorizationType("Token");
     http.setAuthorization(Constants::hmisToken);
 
     Serial.print("Getting from ");
     Serial.println(url);
-    int response = http.GET();
+    const int response = http.GET();
 
     if (response != HTTP_CODE_OK) {
         Serial.print(F("Invalid response from HMIS: "));
@@ -74,7 +60,7 @@ bool Internet::checkAuthLive(uint32_t keyCode) {
     return strncmp(buffer, "true", 4) == 0;
 }
 
-bool Internet::checkAuthCache(uint32_t keyCode) {
+bool Authentication::checkAuthCache(uint32_t keyCode) {
     for (int i = 0; i < rfidCount; ++i) {
         if (keyCode == authCache[i]) return true;
     }
@@ -82,7 +68,7 @@ bool Internet::checkAuthCache(uint32_t keyCode) {
     return false;
 }
 
-void Internet::updateAuthCache() {
+void Authentication::updateAuthCache() {
     // Much functionality of this was borrowed from https://randomnerdtutorials.com/esp32-http-get-post-arduino/#http-get-1
     if (WiFi.status() != WL_CONNECTED) {
         Serial.println(F("No WiFi, skipping cache update"));
@@ -133,14 +119,14 @@ void Internet::updateAuthCache() {
     http.end();
 }
 
-void Internet::clearAuthCache() {
+void Authentication::clearAuthCache() {
     // We only need to clear up as many as we have stored
     for (int i = 0; i < rfidCount; i++) authCache[i] = 0;
 
     rfidCount = 0;
 }
 
-uint32_t Internet::readRfidString(char* rfidString) {
+uint32_t Authentication::readRfidString(char* rfidString) {
     uint32_t key = strtoul(rfidString, nullptr, 16);
     return key;
 }

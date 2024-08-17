@@ -6,7 +6,12 @@
  * A class wrapping the functionality of the actual Lock relay and it's indicators
  */
 class Lock {
+    /** A reference to the program's feedback class */
     Feedback& feedback;
+
+    /**
+     * An output representing the relay that is the locking mechanism
+     */
     Output relay = Output(Constants::pinRelay, Constants::invertRelay);
 
     /**
@@ -34,19 +39,15 @@ public:
 
     /**
      * Setup the Lock functionality:
-     * <ul>
-     *     <li>Setup input & Output pins</li>
-     *     <li>Default state to locked</li>
-     * </ul>
+     * - Setup input & Output pins
+     * - Default state to locked
      */
     void setup();
 
     /**
      * Loop for Lock functionality:
-     * <ul>
-     *     <li>Check if an interrupt has requested the state be inverted</li>
-     *     <li>Check if the Lock timeout has exceeded</li>
-     * </ul>
+     * - Check if an interrupt has requested the state be inverted
+     * - Check if the Lock timeout has exceeded
      */
     void loop();
 

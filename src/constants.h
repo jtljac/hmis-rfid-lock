@@ -8,9 +8,9 @@
 
 namespace Constants {
     // Wifi
-    /** The SSID of the wifi network to use */
+    /** The SSID of the Wi-Fi network to use */
     static const String wifiSsid = F(TOSTRING(WIFI_SSID));
-    /** The password of the wifi network to use */
+    /** The password of the Wi-Fi network to use */
     static const String wifiPass = F(TOSTRING(WIFI_PASS));
 
     // OTA
@@ -20,7 +20,7 @@ namespace Constants {
     static const String otaPassword = F(TOSTRING(OTA_PASS));
 
     // HMIS
-    /** The Id that represents this Lock in HMIS */
+    /** The ID that represents this Lock in HMIS */
     static const String lockId = F(LOCK_ID);
     /** The HMIS URL for fetching a list of authorised RFIDs */
     static const String hmisLockUrl = String(HMIS_URL) + "/rfid/lock/" + lockId  + "/";
@@ -38,14 +38,14 @@ namespace Constants {
 
     // Lock
     /** The length of time in milliseconds to hold the Lock open for (0 to disable) */
-    static const unsigned long unlockDelay = UNLOCK_DELAY * 1000;
+    static constexpr unsigned long unlockDelay = UNLOCK_DELAY * 1000;
     /** If true, buzz whilst the door is unlocked */
-    static const bool unlockBuzz = UNLOCK_BUZZ;
+    static constexpr bool unlockBuzz = UNLOCK_BUZZ;
     /**
      * The length of time in milliseconds to block any access attempt (RFID or Keypad) after a failed auth (Bad keycard
      * or Passcode)
      */
-    static const unsigned long badAuthDelay = BAD_AUTH_DELAY * 1000;
+    static constexpr unsigned long badAuthDelay = BAD_AUTH_DELAY * 1000;
     /**
      * The number of times to flash the LED when an unauthorised input RFID card is scanned, or a bad passcode is
      * entered
@@ -56,11 +56,11 @@ namespace Constants {
      */
     static const int badAuthFlashCount = max<int>(BAD_AUTH_DELAY / 0.2, 5);
     /** If true, enable entering a keycode using the keypad */
-    static const bool enableKeycode = ENABLE_KEYPAD_PASSCODE;
+    static constexpr bool enableKeycode = ENABLE_KEYPAD_PASSCODE;
     /** The length of the keycode */
-    static const int keycodeLength = sizeof(KEYPAD_PASSCODE) - 1;
+    static constexpr int keycodeLength = sizeof(KEYPAD_PASSCODE) - 1;
     /** A mask used to clear the unused bits of the keycode */
-    static const uint32_t keycodeClearMask = 0xFFFFFFFF << keycodeLength * 4;
+    static constexpr uint32_t keycodeClearMask = 0xFFFFFFFF << keycodeLength * 4;
     /** The keycode packed into a uint32 and correctly masked */
     static const uint32_t keycode = keycodeClearMask | strtol(KEYPAD_PASSCODE, nullptr, 16);
 

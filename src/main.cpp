@@ -1,14 +1,15 @@
 #include <Arduino.h>
+#include <WiFi.h>
 
 #include "constants.h"
 #include "feedback/feedback.h"
-#include "internet/internet.h"
+#include "authentication/authentication.h"
 #include "lock/lock.h"
 #include "ota/ota.h"
 #include "rfid/rfid.h"
 
 Feedback feedback;
-Internet internet;
+Authentication auth;
 Lock lock(feedback);
 Ota ota(feedback);
 Rfid rfid(feedback);
@@ -29,10 +30,30 @@ void lockButtonPinPressed() {
     lock.lockButtonPressed();
 }
 
+void setupWifi() {
+    WiFi.mode(WIFI_STA);
+    WiFi.begin(Constants::wifiSsid, Constants::wifiPass);
+    Serial.print(F("Connecting to WiFi Network:"));
+    Serial.println(Constants::wifiSsid);
+
+    while(WiFi.status() != WL_CONNECTED) {
+        delay(500);
+        Serial.print(".");
+    }
+    Serial.println();
+    Serial.print(F("Successfully connected, Local IP: "));
+    Serial.println(WiFi.localIP());
+
+    // Enable auto-reconnecting on WiFi loss
+    WiFi.setAutoReconnect(true);
+    WiFi.persistent(true);
+}
+
 void setup() {
     Serial.begin(115200);
 
-    internet.setup();
+    setupWifi();
+    auth.setup();
     lock.setup();
     attachInterrupt(digitalPinToInterrupt(Constants::pinButtonLock), lockButtonPinPressed, FALLING);
 
@@ -44,7 +65,7 @@ void setup() {
 }
 
 void loop() {
-    internet.loop();
+    auth.loop();
     rfid.loop();
     lock.loop();
     ota.loop();
@@ -66,7 +87,7 @@ void loop() {
 
     // Only handle key if currently locked, otherwise discard
     if (hasKey && lock.isLocked()) {
-        if (internet.isAuthorised(nextKey)) {
+        if (auth.isAuthorised(nextKey)) {
             Serial.print(F("Read Authorised key: "));
             Serial.println(nextKey, 16);
             lock.unlock();
