@@ -1,2 +1,7 @@
 .idea/
 .pio/
+
+# Kicad Files
+boards/*/Output
+boards/*/*-backups
+boards/*/fp-info-cache
