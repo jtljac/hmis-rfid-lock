@@ -3817,6 +3817,12 @@
 		(uuid "432c0080-f276-451a-9201-8e650dd74038")
 	)
 	(junction
+		(at 127 181.61)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "43672f87-373c-4ee8-83ec-7f364473589c")
+	)
+	(junction
 		(at 151.13 115.57)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -5127,8 +5133,8 @@
 		(uuid "fb42514a-b5c0-499f-9780-4145cffb2af2")
 	)
 	(rectangle
-		(start 59.69 133.35)
-		(end 135.89 184.15)
+		(start 59.69 137.16)
+		(end 135.89 187.96)
 		(stroke
 			(width 0)
 			(type default)
@@ -9367,6 +9373,71 @@
 			(project ""
 				(path "/0df1a8ca-d4c3-4202-9e1e-dfe87dcb7bf9"
 					(reference "#PWR04")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 127 181.61 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "d342f885-ddf1-418a-87ca-32c4d39a799c")
+		(property "Reference" "#PWR024"
+			(at 127 187.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 127 186.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 127 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 127 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 127 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "26664ed0-2da7-461f-aa2e-af96f52c643e")
+		)
+		(instances
+			(project "esp-32-s3-wroom-1"
+				(path "/0df1a8ca-d4c3-4202-9e1e-dfe87dcb7bf9"
+					(reference "#PWR024")
 					(unit 1)
 				)
 			)
