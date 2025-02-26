@@ -1,10 +1,10 @@
-# Firebeetle ESP32-e
+# Firebeetle ESP32-e Through Hole Design
 
 Product Page: https://www.dfrobot.com/product-2195.html
 Wiki: https://wiki.dfrobot.com/FireBeetle_Board_ESP32_E_SKU_DFR0654
 
 # Image
-![Board screenshot](./FireBeetle_ESP32-e.png)
+![Board screenshot](./firebeetle-2e-th.png)
 
 # Components
 - 1x Firebeetle ESP32-e
@@ -14,6 +14,7 @@ Wiki: https://wiki.dfrobot.com/FireBeetle_Board_ESP32_E_SKU_DFR0654
   - https://www.mpja.com/Micro-Adjustable-Step-Down-Buck-DC_DC-Converter-3A/productinfo/35371%20PS/
   - https://www.aliexpress.com/item/1005005870392716.html?spm=a2g0o.order_list.order_list_main.193.254618024ZJA2j
   - https://www.aideepen.com/products/dc-dc-usb-9v-12v-19v-to-5v-3a-step-down-buck-converter-power-supply-charger-module-voltage-regulator-for-vehicle-car-board
+- 1x 1N5819 Schottkey Diode
 - 1x 5.1k resistor (Optional for relay)
 - 2x 1k resistor
 - 2x 3.3k resistor
