@@ -50,8 +50,8 @@ bool Lock::isUnlocked() const {
     return relay.isOff();
 }
 
-void Lock::lockButtonPressed() {
-    if (isLocked()) return;
+void Lock::buttonPressed() {
+    if (!(isLocked() ? Constants::buttonUnlock : Constants::buttonLock)) return;
 
     unsigned long currentMillis = millis();
     if (currentMillis - lastLockButtonMillis > 200) {

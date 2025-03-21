@@ -38,7 +38,7 @@ public:
     explicit Lock(Feedback& feedback) : feedback(feedback) {}
 
     /**
-     * Setup the Lock functionality:
+     * Set up the Lock functionality:
      * - Setup input & Output pins
      * - Default state to locked
      */
@@ -76,5 +76,5 @@ public:
     /**
      * Handler for interrupt when the Lock button has been pressed
      */
-    void lockButtonPressed();
+    void buttonPressed();
 };
