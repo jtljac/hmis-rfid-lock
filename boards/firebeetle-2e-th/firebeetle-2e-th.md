@@ -30,7 +30,17 @@ Wiki: https://wiki.dfrobot.com/FireBeetle_Board_ESP32_E_SKU_DFR0654
 - The Relay has an optional resistor incase you need to lower the current draw, a 5.1k resistor is suggested for the linked relay.
 - A ground pin is provided next to the feedback for when using them to power outputs. When all these pins are inverted
   this ground pin can be ignored.
-- A voltage divider is used to step down the the Wiegand data lines from 5v to 3v3 to prevent damage to the esp.
+- A voltage divider is used to step down the Wiegand data lines from 5v to 3v3 to prevent damage to the esp.
   - The voltage divider in particular was used due to protocol being one way, and a logic level shifter being impractical due to the lack of access to the 5v rail at the
     wiegand side
 - The button is using an internal pull-up resistor
+
+## Buck converter modifications (MP2307EN)
+The suggested buck converter, MP2307, usually comes with Soft Start enabled, this prevents inrush current when it is
+first powered. However, in this project, this causes the Firebeetle to fail to startup.  
+As noted [here](https://forum.arduino.cc/t/esp-is-not-starting-up-first-time-power-is-switched-on/1268814/5), you can
+disable Soft start by removing the capacitor connected to pin 8 of the MP2307 chip:
+![MP2037EN SS disable](https://europe1.discourse-cdn.com/arduino/original/4X/3/9/5/395d431c4ae849779081ccddfc798185f4379d0e.jpeg)
+
+If your MP2038EN Does not match this layout, then you can identify which pin the SS Capacitor connects to with
+[this datasheet](https://cdn-shop.adafruit.com/datasheets/MP2307_r1.9.pdf) and trace that to the capacitor.
