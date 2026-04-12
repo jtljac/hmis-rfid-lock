@@ -68,6 +68,9 @@ namespace Constants {
     /** If true, the button can will lock the Lock when unlocked */
     constexpr bool buttonLock = BUTTON_LOCK;
 
+    /** The number of milliseconds the button must be held for until the button triggers (0 means disabled) */
+    constexpr uint32_t buttonHoldTime = BUTTON_HOLD_TIME;
+
     // Pins
     /** D0 for Wiegand data */
     constexpr int pinD0 = PIN_D0;

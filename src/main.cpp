@@ -23,13 +23,6 @@ void wiegandPinStateChanged() {
     rfid.updatePinState();
 }
 
-/**
- * When the lock button is pressed, update it's state in the Lock instance
- */
-void buttonPinFall() {
-    lock.buttonPressed();
-}
-
 void setupWifi() {
     WiFi.mode(WIFI_STA);
     WiFi.begin(Constants::wifiSsid, Constants::wifiPass);
@@ -55,7 +48,6 @@ void setup() {
     setupWifi();
     auth.setup();
     lock.setup();
-    attachInterrupt(digitalPinToInterrupt(Constants::pinButtonLock), buttonPinFall, FALLING);
 
     rfid.setup();
     attachInterrupt(digitalPinToInterrupt(Constants::pinD0), wiegandPinStateChanged, CHANGE);

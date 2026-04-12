@@ -4,16 +4,25 @@
 #include "constants.h"
 
 void Lock::setup() {
-    pinMode(Constants::pinButtonLock, INPUT_PULLUP);
-
     lock();
 }
 
 void Lock::loop() {
+    // Handle
+    if (isLocked() ? Constants::buttonUnlock : Constants::buttonLock) {
+        shouldSwitch = button.readState() && button.getStateDuration() > Constants::buttonHoldTime;
+    } else {
+        Serial.println("No button pressed");
+    }
+
     if (shouldSwitch) {
         shouldSwitch = false;
         if (isLocked()) unlock();
         else lock();
+        // Wait for button release
+        while (button.readState()) {
+            delay(100);
+        }
     }
 #if UNLOCK_DELAY != 0
     if (isUnlocked() && millis() - lastUnlockMillis >= Constants::unlockDelay) {
@@ -27,6 +36,7 @@ void Lock::lock() {
     feedback.unlockLed.off();
     feedback.lockLed.on();
     feedback.buzzer.off();
+    Serial.println("Lock locked");
 }
 
 void Lock::unlock() {
@@ -35,6 +45,8 @@ void Lock::unlock() {
     relay.off();
     feedback.unlockLed.on();
     feedback.lockLed.off();
+
+    Serial.println("Lock unlocked");
 
     // Only buzzer if enabled
 #if UNLOCK_BUZZ
@@ -48,14 +60,4 @@ bool Lock::isLocked() const {
 
 bool Lock::isUnlocked() const {
     return relay.isOff();
-}
-
-void Lock::buttonPressed() {
-    if (!(isLocked() ? Constants::buttonUnlock : Constants::buttonLock)) return;
-
-    unsigned long currentMillis = millis();
-    if (currentMillis - lastLockButtonMillis > 200) {
-        shouldSwitch = true;
-    }
-    lastLockButtonMillis = currentMillis;
 }

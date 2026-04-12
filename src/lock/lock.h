@@ -1,6 +1,7 @@
 #pragma once
 
 #include "feedback/feedback.h"
+#include "input.h"
 
 /**
  * A class wrapping the functionality of the actual Lock relay and it's indicators
@@ -13,6 +14,8 @@ class Lock {
      * An output representing the relay that is the locking mechanism
      */
     Output relay = Output(Constants::pinRelay, Constants::invertRelay);
+
+    Input button = Input(Constants::pinButtonLock, LOW);
 
     /**
      * Value to signify that the Lock should change.
@@ -27,13 +30,6 @@ class Lock {
      * This is used to track when the Lock was unlocked for automatic re-locking
      */
     unsigned long lastUnlockMillis = 0UL;
-
-    /**
-     * The time in millis that the Lock button was last pressed
-     * <p>
-     * This is used for debouncing the Lock button interrupt
-     */
-    volatile unsigned long lastLockButtonMillis = 0UL;
 public:
     explicit Lock(Feedback& feedback) : feedback(feedback) {}
 
@@ -72,9 +68,4 @@ public:
      * @return True if unlocked
      */
     bool isUnlocked() const;
-
-    /**
-     * Handler for interrupt when the Lock button has been pressed
-     */
-    void buttonPressed();
 };
