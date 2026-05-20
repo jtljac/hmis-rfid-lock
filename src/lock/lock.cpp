@@ -35,6 +35,12 @@ void Lock::lock() {
     relay.on();
     feedback.unlockLed.off();
     feedback.lockLed.on();
+
+#if !UNLOCK_BUZZ
+    feedback.buzzer.on();
+    delay(Constants::lockBeepTime);
+#endif
+    // Turn off whether unlock buzz is true of false
     feedback.buzzer.off();
     Serial.println("Lock locked");
 }

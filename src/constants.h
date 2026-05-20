@@ -7,6 +7,10 @@
 #define TOSTRING(x) TOSTRINGIMPL(x)
 
 namespace Constants {
+    // General Constants
+    /** The amount of time in milliseconds to beep for when locking */
+    const int lockBeepTime = 300;
+
     // Wifi
     /** The SSID of the Wi-Fi network to use */
     const String wifiSsid = F(TOSTRING(WIFI_SSID));
