@@ -32,7 +32,7 @@ void Lock::loop() {
 }
 
 void Lock::lock() {
-    relay.on();
+    relay.off();
     feedback.unlockLed.off();
     feedback.lockLed.on();
 
@@ -48,7 +48,7 @@ void Lock::lock() {
 void Lock::unlock() {
     lastUnlockMillis = millis();
 
-    relay.off();
+    relay.on();
     feedback.unlockLed.on();
     feedback.lockLed.off();
 
@@ -61,9 +61,9 @@ void Lock::unlock() {
 }
 
 bool Lock::isLocked() const {
-    return relay.isOn();
+    return relay.isOff();
 }
 
 bool Lock::isUnlocked() const {
-    return relay.isOff();
+    return relay.isOn();
 }

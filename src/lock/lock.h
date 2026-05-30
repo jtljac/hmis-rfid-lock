@@ -13,7 +13,7 @@ class Lock {
     /**
      * An output representing the relay that is the locking mechanism
      */
-    Output relay = Output(Constants::pinRelay, Constants::invertRelay);
+    Output relay = Output(Constants::pinRelay, Constants::invertRelay, true);
 
     Input button = Input(Constants::pinButtonLock, LOW);
 

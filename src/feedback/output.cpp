@@ -6,7 +6,7 @@ void Output::clearAnimation() {
     animationRemaining = 0;
 }
 
-Output::Output(int pin, bool invert) : pin(pin), invert(invert) {
+Output::Output(int pin, bool invert, bool offHighImpedance) : pin(pin), invert(invert), offHighImpedance(offHighImpedance) {
     pinMode(pin, OUTPUT);
     off();
 }
@@ -50,6 +50,8 @@ void Output::on() {
     clearAnimation();
     state = true;
 
+    if (offHighImpedance) pinMode(pin, OUTPUT);
+
     if (invert) digitalWrite(pin, LOW);
     else digitalWrite(pin, HIGH);
 }
@@ -58,7 +60,8 @@ void Output::off() {
     clearAnimation();
     state = false;
 
-    if (invert) digitalWrite(pin, HIGH);
+    if (offHighImpedance) pinMode(pin, INPUT);
+    else if (invert) digitalWrite(pin, HIGH);
     else digitalWrite(pin, LOW);
 }
 

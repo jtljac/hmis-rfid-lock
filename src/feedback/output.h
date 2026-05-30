@@ -14,6 +14,8 @@ class Output {
      * When <code>false</code>, "on" sets the pin to HIGH.
      */
     bool invert;
+    /** Use high impedance for the "off" state */
+    bool offHighImpedance;
     /**
      * The current state of the pin.
      * <p>
@@ -40,7 +42,7 @@ public:
      * @param pin The pin this output is on
      * @param invert If <code>true</code>, when the pin is "on", it will output LOW, otherwise "on" will output HIGH
      */
-    explicit Output(int pin, bool invert = false);
+    explicit Output(int pin, bool invert = false, bool offHighImpedance = false);
 
     /**
      * Animation handling loop
